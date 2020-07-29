@@ -1,0 +1,12 @@
+FROM alexaandrov/lumen-pgsql-fpm-prod:7.3
+
+RUN apk add --no-cache \
+    git \
+    rsync \
+    && curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
+
+WORKDIR /usr/cache
+
+# Setting up composer to be run as root
+ENV COMPOSER_ALLOW_SUPERUSER 1
+RUN composer global require hirak/prestissimo --no-plugins --no-scripts
